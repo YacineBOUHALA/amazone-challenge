@@ -13,7 +13,7 @@ function Product({title, image, price, rating }) {
             <small>{price}</small>
         </p>
         <div className='product___raiting'>
-            <p>{rating} * <StarIcon/></p>
+            <p>{rating} <StarIcon/></p>
         </div>
       </div>
       <img src={leanProductImage} alt=''/>
