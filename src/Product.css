@@ -45,3 +45,8 @@
     color: #111;
 
 }
+
+
+.product___raiting{
+    display: flex;
+}
