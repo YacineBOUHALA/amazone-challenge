@@ -1,7 +1,8 @@
 import { Cases, SelectAllRounded } from "@mui/icons-material";
 
 export const initialState ={
-    basket: []
+    basket: [],
+    user: null
 };
 //Selector
 
@@ -32,6 +33,11 @@ export const reducer = (state, action)=>{
                 basket: newBasket,
 
             } ;
+            case "SET_USER":
+                return {
+                    ...state,
+                    user: action.user
+                }
         default:
             return state;
 
