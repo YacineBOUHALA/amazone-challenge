@@ -6,12 +6,20 @@ import logo from '../src/assets/Amazon-Logo.png'
 import { Link } from 'react-router-dom';
 import { useStateValue } from './StateProvider';
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import {auth} from './firebase'
 
 
 function Header() {
-  const [{basket}, dispatch] = useStateValue();
+  const [{basket, user}, dispatch] = useStateValue();
   const location = useLocation();
   const [isLoginPage, setIsLoginpage] = useState(false);
+
+  const handleAuthentication = () =>{
+    if(user){
+      console.log(user)
+      auth.signOut()
+    }
+  }
   return (
     <>
    
@@ -26,10 +34,10 @@ function Header() {
           <PageviewIcon className='header__searchIcon'/>
         </div>
         <div className='header_nav'>
-          <Link to='/login'>
-            <div className='header__option'>
-                <span className='header__optionLineOne'>Hello Gueszt</span>
-                <span className='header__optionLineTwo'>Sign In</span>
+          <Link to={!user && '/login'}>
+            <div onClick={handleAuthentication} className='header__option'>
+                <span className='header__optionLineOne' >Hello Gueszt</span>
+                <span className='header__optionLineTwo'> {user ? 'sign Out': 'sign In'}</span>
             </div>
           </Link>
         
