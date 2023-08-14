@@ -18,6 +18,18 @@ const Payment = () => {
     const [clientSecret, setClientSecret] = useState(true)
     const navigate = useNavigate()
 
+    const stripe = useStripe();
+    const element = useElements();
+    useEffect(()=>{
+        const getClientSecret = async () =>{
+            const response = await axios({
+                method: "post",
+                url: `/payments/create?total=${basketTotal(basket) * 100}`
+            });
+            setClientSecret(response.data.clientSecret)
+        }
+        //getClientSecret();
+    }, [basket])
 
     const handleSabmit = async e => {
         e.preventDefautl();
