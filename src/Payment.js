@@ -44,7 +44,6 @@ const Payment = () => {
             setProcessing(false)
             navigate('/order')
           })
-          
     }
 
     const handleChange = e => {
