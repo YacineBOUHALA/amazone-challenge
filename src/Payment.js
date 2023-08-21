@@ -94,6 +94,7 @@ const Payment = () => {
                         <div className='payement__priceContainer'>
                             <CurrencyFormat
                                 renderText={(value) => (
+                                    
                                     <>
                                         <h3>Order Total: {value}</h3>
                                     </>
