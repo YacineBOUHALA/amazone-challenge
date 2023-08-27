@@ -8,6 +8,7 @@ import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import CurrencyFormat from 'react-currency-format'
 import {basketTotal}   from './Subtotal'
 import axios from 'axios' 
+import {db} from './firebase'
 
 const Payment = () => {
     const [{basket, user, fullTotal}, dispatch] = useStateValue()
@@ -28,7 +29,7 @@ const Payment = () => {
             });
             setClientSecret(response.data.clientSecret)
         }
-       // getClientSecret();
+        getClientSecret();
     }, [basket])
 
     console.log('>>>>>>>>>the sectet is >>>', clientSecret)    
@@ -41,6 +42,12 @@ const Payment = () => {
               card: element.getElement(CardElement)
             }
           }).then(({PaymentIntent}) =>{
+
+            db.collection('users').doc(user?.uid).collection('orders').doc(PaymentIntent.id).set({
+                basket: basket,
+                amount: PaymentIntent.amount,
+                created: PaymentIntent.created
+            })
             setSucceeded(true)
             setError(null)
             setProcessing(false)
@@ -121,7 +128,7 @@ const Payment = () => {
                                 prefix='$'
                             
                             />
-                            <button disabled={Processing || basket.length ==0 } onClick={goOrders}>
+                            <button disabled={Processing || basket.length == 0 } >
                                 <span>{Processing ? <p>Processing</p> :  "Buy Now"}</span>
                             </button>
                         </div>
