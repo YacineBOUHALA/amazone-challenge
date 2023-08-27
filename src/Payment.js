@@ -14,7 +14,7 @@ const Payment = () => {
     const [error, setError] = useState(null)
     const [disabled, setDisabled] = useState(null)
     const [Processing, setProcessing] = useState("")
-    const [succeeded, setSucceeded] = useState(true)
+    const [succeeded, setSucceeded] = useState(false)
     const [clientSecret, setClientSecret] = useState(true)
     const navigate = useNavigate()
 
@@ -28,12 +28,14 @@ const Payment = () => {
             });
             setClientSecret(response.data.clientSecret)
         }
-        //getClientSecret();
+       // getClientSecret();
     }, [basket])
+
+    console.log('>>>>>>>>>the sectet is >>>', clientSecret)    
 
     const handleSabmit = async e => {
         e.preventDefautl();
-        setProcessing(true);
+        setProcessing(false);
         const payload = await stripe.confirmCardPayment(clientSecret, {
             payment_method: {
               card: element.getElement(CardElement)
@@ -42,6 +44,10 @@ const Payment = () => {
             setSucceeded(true)
             setError(null)
             setProcessing(false)
+
+            dispatch({
+                type: 'EMPTY_BASKET'
+            })
             navigate('/order')
           })
     }
@@ -51,7 +57,16 @@ const Payment = () => {
         setError(e.error ? e.error.message : "");
 
     }
+
+    const goOrders = () => {
+        navigate('/orders');
+        return{
+            basket: []
+        }
+    };
+      
   return (
+    console.log('proces',Processing,'disabled',  disabled, 'succes', succeeded),
     <>
         <Header/>
         <div className='payment'>
@@ -106,7 +121,7 @@ const Payment = () => {
                                 prefix='$'
                             
                             />
-                            <button disabled={Processing || disabled || succeeded }>
+                            <button disabled={Processing || basket.length ==0 } onClick={goOrders}>
                                 <span>{Processing ? <p>Processing</p> :  "Buy Now"}</span>
                             </button>
                         </div>
