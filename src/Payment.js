@@ -48,12 +48,11 @@ const Payment = () => {
                 amount: PaymentIntent.amount,
                 created: PaymentIntent.created
             })
-
             
             setSucceeded(true)
             setError(null)
             setProcessing(false)
-
+            
             dispatch({
                 type: 'EMPTY_BASKET'
             })
