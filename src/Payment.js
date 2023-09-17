@@ -32,7 +32,6 @@ const Payment = () => {
         getClientSecret();
     }, [basket])
 
-    console.log('>>>>>>>>>the sectet is >>>', clientSecret)    
 
     const handleSabmit = async e => {
         e.preventDefautl();
